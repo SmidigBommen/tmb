@@ -247,7 +247,8 @@ body {
 .section-alt > .safety-grid,
 .section-alt > .tier-filters,
 .section-alt > .refuge-filters,
-.section-alt > .refuges-grid {
+.section-alt > .refuges-grid,
+.section-alt > .variants-grid {
     max-width: 1320px;
     margin-left: auto;
     margin-right: auto;
