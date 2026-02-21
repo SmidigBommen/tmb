@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive travel assistant for planning the Tour du Mont Blanc — 170km across France, Italy, and Switzerland. Route maps, stage details, refuge info, budget calculator, gear checklist.">
+    <meta name="theme-color" content="#1a2332">
+    <title>Tour du Mont Blanc 2026 — Travel Assistant</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛰️</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Hero / Landing -->
+<header class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <p class="hero-subtitle">Summer 2026</p>
+        <h1 class="hero-title">Tour du Mont Blanc</h1>
+        <p class="hero-tagline">170 km &middot; 3 Countries &middot; 10 Passes &middot; 11 Stages</p>
+        <p class="hero-desc">Your interactive travel assistant for planning the adventure of a lifetime around Western Europe's highest peak.</p>
+        <a href="#map-section" class="hero-cta">Start Planning</a>
+    </div>
+    <div class="hero-stats">
+        <div class="stat"><span class="stat-value">170</span><span class="stat-label">km Distance</span></div>
+        <div class="stat"><span class="stat-value">10,000</span><span class="stat-label">m Elevation</span></div>
+        <div class="stat"><span class="stat-value">11</span><span class="stat-label">Stages</span></div>
+        <div class="stat"><span class="stat-value">10-12</span><span class="stat-label">Days</span></div>
+    </div>
+</header>
+
+<!-- Navigation -->
+<nav class="main-nav" id="main-nav">
+    <div class="nav-brand">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21l4-11 4 11M2 21l6-16h0M16 5l6 16"/></svg>
+        <span>TMB 2026</span>
+    </div>
+    <div class="nav-links">
+        <a href="#map-section" class="nav-link active" data-section="map-section">Map</a>
+        <a href="#planner-section" class="nav-link" data-section="planner-section">Planner</a>
+        <a href="#stages-section" class="nav-link" data-section="stages-section">Stages</a>
+        <a href="#refuges-section" class="nav-link" data-section="refuges-section">Stays</a>
+        <a href="#gear-section" class="nav-link" data-section="gear-section">Gear</a>
+        <a href="#safety-section" class="nav-link" data-section="safety-section">Safety</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- Map Section -->
+<section class="section" id="map-section">
+    <div class="section-header">
+        <h2>Interactive Route Map</h2>
+        <p>Explore the complete Tour du Mont Blanc route across France, Italy, and Switzerland</p>
+    </div>
+    <div class="map-container">
+        <div id="map"></div>
+        <div class="map-legend">
+            <h4>Legend</h4>
+            <div class="legend-item"><span class="legend-color" style="background:#e74c3c"></span> TMB Route</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#2c3e50"></span> Stage Start/End</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#e67e22"></span> Mountain Refuge</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#8e44ad"></span> Mountain Pass</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#27ae60"></span> Town/Village</div>
+        </div>
+    </div>
+</section>
+
+<!-- Planner Section -->
+<section class="section section-alt" id="planner-section">
+    <div class="section-header">
+        <h2>Trip Planner</h2>
+        <p>Customize your TMB experience — budget, timing, and route preferences</p>
+    </div>
+    <div class="planner-grid">
+        <!-- Budget Calculator -->
+        <div class="planner-card">
+            <h3>Budget Calculator</h3>
+            <div class="budget-form">
+                <div class="form-group">
+                    <label>Travel Style</label>
+                    <select id="budget-style">
+                        <option value="budget">Budget (Camping)</option>
+                        <option value="mid" selected>Mid-Range (Refuges)</option>
+                        <option value="comfort">Comfort (Hotels)</option>
+                        <option value="guided">Guided Tour</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Number of Days</label>
+                    <input type="range" id="budget-days" min="7" max="14" value="11">
+                    <span class="range-value" id="budget-days-value">11 days</span>
+                </div>
+                <div class="form-group">
+                    <label>Number of Hikers</label>
+                    <input type="range" id="budget-hikers" min="1" max="6" value="1">
+                    <span class="range-value" id="budget-hikers-value">1 hiker</span>
+                </div>
+                <div class="budget-result" id="budget-result">
+                    <div class="budget-total">
+                        <span class="budget-label">Estimated Total</span>
+                        <span class="budget-amount" id="budget-amount">EUR 1,290</span>
+                    </div>
+                    <div class="budget-breakdown" id="budget-breakdown"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- When to Go -->
+        <div class="planner-card">
+            <h3>Best Time to Go</h3>
+            <div class="timing-chart" id="timing-chart">
+                <!-- Generated by JS -->
+            </div>
+            <div class="timing-recommendation" id="timing-recommendation">
+                <strong>Recommended:</strong> Late June to mid-July or early September for the best balance of weather, trail conditions, and crowd levels.
+            </div>
+        </div>
+
+        <!-- Route Configurator -->
+        <div class="planner-card planner-card-wide">
+            <h3>Route Variants</h3>
+            <p class="card-desc">Customize your route with these key decision points. Each variant offers a different experience.</p>
+            <div class="variants-grid" id="variants-grid">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- Country Info -->
+        <div class="planner-card">
+            <h3>Three Countries</h3>
+            <div class="countries-info">
+                <div class="country-card" data-country="france">
+                    <div class="country-flag">🇫🇷</div>
+                    <h4>France</h4>
+                    <p class="country-stages">Stages 1-3 & 9-11</p>
+                    <ul>
+                        <li>Currency: EUR</li>
+                        <li>Language: French</li>
+                        <li>Trail marks: Red & white stripes</li>
+                        <li>Showers: EUR 2-4 extra</li>
+                    </ul>
+                </div>
+                <div class="country-card" data-country="italy">
+                    <div class="country-flag">🇮🇹</div>
+                    <h4>Italy</h4>
+                    <p class="country-stages">Stages 3-6</p>
+                    <ul>
+                        <li>Currency: EUR</li>
+                        <li>Language: Italian</li>
+                        <li>Trail marks: Red & white stripes</li>
+                        <li>Most affordable section</li>
+                    </ul>
+                </div>
+                <div class="country-card" data-country="switzerland">
+                    <div class="country-flag">🇨🇭</div>
+                    <h4>Switzerland</h4>
+                    <p class="country-stages">Stages 6-9</p>
+                    <ul>
+                        <li>Currency: CHF (EUR accepted)</li>
+                        <li>Language: French</li>
+                        <li>Best signage system</li>
+                        <li>20-40% pricier</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transport -->
+        <div class="planner-card">
+            <h3>Getting There</h3>
+            <div class="transport-info">
+                <div class="transport-item">
+                    <div class="transport-icon">✈️</div>
+                    <div>
+                        <strong>Geneva Airport (GVA)</strong>
+                        <p>Best option — 88 km, ~1.5 hours to Chamonix</p>
+                        <p class="transport-detail">Shuttle EUR 20-40 &middot; Private EUR 150-250</p>
+                    </div>
+                </div>
+                <div class="transport-item">
+                    <div class="transport-icon">🚂</div>
+                    <div>
+                        <strong>Train from Paris</strong>
+                        <p>TGV + regional &middot; 5-6 hours</p>
+                        <p class="transport-detail">EUR 60-120</p>
+                    </div>
+                </div>
+                <div class="transport-item">
+                    <div class="transport-icon">🚌</div>
+                    <div>
+                        <strong>Bus from Geneva</strong>
+                        <p>Ouibus/FlixBus &middot; 1.5-2 hours</p>
+                        <p class="transport-detail">EUR 10-25</p>
+                    </div>
+                </div>
+                <div class="transport-item">
+                    <div class="transport-icon">🚡</div>
+                    <div>
+                        <strong>On-Trail Cable Cars</strong>
+                        <p>Available at La Flegere, Le Brevent, Courmayeur</p>
+                        <p class="transport-detail">EUR 15-25 per ride</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stages Section -->
+<section class="section" id="stages-section">
+    <div class="section-header">
+        <h2>11 Stages of the TMB</h2>
+        <p>Complete breakdown of each day's hike with elevation, distance, and key information</p>
+    </div>
+    <div class="stages-overview">
+        <div class="elevation-profile" id="elevation-profile">
+            <canvas id="elevation-canvas"></canvas>
+        </div>
+    </div>
+    <div class="stages-grid" id="stages-grid">
+        <!-- Generated by JS -->
+    </div>
+</section>
+
+<!-- Accommodations Section -->
+<section class="section section-alt" id="refuges-section">
+    <div class="section-header">
+        <h2 id="accommodations-title">Mountain Refuges & Accommodations</h2>
+        <p id="accommodations-subtitle">Find and compare accommodations along the route — book early for summer 2026!</p>
+    </div>
+    <div class="tier-filters" id="tier-filters">
+        <button class="tier-btn active" data-tier="mid">Refuges</button>
+        <button class="tier-btn" data-tier="budget">Campsites</button>
+        <button class="tier-btn" data-tier="comfort">Hotels</button>
+        <button class="tier-btn" data-tier="all">All Types</button>
+    </div>
+    <div class="refuge-filters" id="country-filters">
+        <button class="filter-btn active" data-country="all">All Countries</button>
+        <button class="filter-btn" data-country="France">France</button>
+        <button class="filter-btn" data-country="Italy">Italy</button>
+        <button class="filter-btn" data-country="Switzerland">Switzerland</button>
+    </div>
+    <div class="refuges-grid" id="refuges-grid">
+        <!-- Generated by JS -->
+    </div>
+</section>
+
+<!-- Gear Section -->
+<section class="section" id="gear-section">
+    <div class="section-header">
+        <h2>Gear Checklist</h2>
+        <p>Essential equipment for your TMB trek — check off items as you pack</p>
+    </div>
+    <div class="gear-progress">
+        <div class="gear-progress-bar">
+            <div class="gear-progress-fill" id="gear-progress-fill"></div>
+        </div>
+        <span class="gear-progress-text" id="gear-progress-text">0 of 0 items packed</span>
+    </div>
+    <div class="gear-grid" id="gear-grid">
+        <!-- Generated by JS -->
+    </div>
+</section>
+
+<!-- Safety Section -->
+<section class="section section-alt" id="safety-section">
+    <div class="section-header">
+        <h2>Safety & Emergency</h2>
+        <p>Essential safety information for your trek</p>
+    </div>
+    <div class="safety-grid">
+        <div class="safety-card emergency-card">
+            <h3>Emergency Contacts</h3>
+            <div class="emergency-list">
+                <div class="emergency-item">
+                    <span class="emergency-number">112</span>
+                    <span class="emergency-label">European Emergency (all countries)</span>
+                </div>
+                <div class="emergency-item">
+                    <span class="emergency-number">+33 4 50 53 16 89</span>
+                    <span class="emergency-label">PGHM Chamonix — Mountain Rescue</span>
+                </div>
+                <div class="emergency-item">
+                    <span class="emergency-number">1414</span>
+                    <span class="emergency-label">REGA — Swiss Air Rescue</span>
+                </div>
+                <div class="emergency-item">
+                    <span class="emergency-number">118</span>
+                    <span class="emergency-label">Soccorso Alpino — Italian Rescue</span>
+                </div>
+                <div class="emergency-item">
+                    <span class="emergency-number">+33 4 50 53 22 08</span>
+                    <span class="emergency-label">La Chamoniarde — Trail Conditions</span>
+                </div>
+            </div>
+        </div>
+        <div class="safety-card">
+            <h3>Common Hazards</h3>
+            <div class="hazards-list">
+                <div class="hazard-item">
+                    <div class="hazard-icon">⛈️</div>
+                    <div>
+                        <strong>Weather Changes</strong>
+                        <p>Rapid changes, afternoon thunderstorms common. Start early to cross passes before noon.</p>
+                    </div>
+                </div>
+                <div class="hazard-item">
+                    <div class="hazard-icon">❄️</div>
+                    <div>
+                        <strong>Snow & Ice</strong>
+                        <p>Early season snow on high passes (June-early July). Check conditions before departure.</p>
+                    </div>
+                </div>
+                <div class="hazard-item">
+                    <div class="hazard-icon">🪨</div>
+                    <div>
+                        <strong>Steep Terrain</strong>
+                        <p>Relentless descents can strain knees. Metal ladders on Stages 10-11. Trekking poles recommended.</p>
+                    </div>
+                </div>
+                <div class="hazard-item">
+                    <div class="hazard-icon">☀️</div>
+                    <div>
+                        <strong>Sun & Heat</strong>
+                        <p>Strong UV at altitude. Carry SPF 50+ sunscreen, hat, and minimum 2L water capacity.</p>
+                    </div>
+                </div>
+                <div class="hazard-item">
+                    <div class="hazard-icon">🌊</div>
+                    <div>
+                        <strong>Stream Crossings</strong>
+                        <p>Water levels rise rapidly after rain. Exercise caution at fords.</p>
+                    </div>
+                </div>
+                <div class="hazard-item">
+                    <div class="hazard-icon">🌫️</div>
+                    <div>
+                        <strong>Navigation in Fog</strong>
+                        <p>Trail markers can be obscured. Carry offline maps and GPS as backup.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="safety-card">
+            <h3>Weather Tips</h3>
+            <ul class="tips-list">
+                <li>Check forecasts daily: Meteo France, MeteoSwiss, ARPA Valle d'Aosta</li>
+                <li>Start hiking by 7-8 AM to reach passes before afternoon storms</li>
+                <li>Temperature drops ~1&deg;C per 150m of altitude gained</li>
+                <li>Valley at 25&deg;C can mean 15&deg;C at the pass</li>
+                <li>Lightning: descend from ridges, avoid metal, crouch low</li>
+                <li>Carry warm layers even on sunny days — conditions change fast</li>
+            </ul>
+        </div>
+        <div class="safety-card">
+            <h3>Mobile Coverage</h3>
+            <ul class="tips-list">
+                <li>Generally good in valleys and near towns</li>
+                <li>Poor/none: Courmayeur to Les Chapieux, Les Chapieux to Les Contamines</li>
+                <li>Download offline maps before departure (Maps.me, Gaia GPS)</li>
+                <li>Some refuges have WiFi — don't count on it</li>
+                <li>Carry a portable battery charger (10,000+ mAh)</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21l4-11 4 11M2 21l6-16h0M16 5l6 16"/></svg>
+            <span>Tour du Mont Blanc 2026</span>
+        </div>
+        <p class="footer-text">Plan your adventure around Western Europe's highest peak. 170 km across France, Italy, and Switzerland.</p>
+        <div class="footer-links">
+            <a href="https://www.montourdumontblanc.com/en/" target="_blank" rel="noopener">Official Bookings</a>
+            <a href="https://www.chamoniarde.com/en/" target="_blank" rel="noopener">La Chamoniarde</a>
+        </div>
+        <p class="footer-disclaimer">This is a personal planning tool. Always verify information with official sources before your trek. Trail conditions and refuge availability can change.</p>
+    </div>
+</footer>
+
+<!-- Stage Detail Modal -->
+<div class="modal-overlay" id="stage-modal">
+    <div class="modal">
+        <button class="modal-close" id="modal-close">&times;</button>
+        <div class="modal-content" id="modal-content">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
