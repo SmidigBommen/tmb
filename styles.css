@@ -682,10 +682,6 @@ body {
 .tier-btn:hover { border-color: var(--alpine-blue); color: var(--alpine-blue); }
 .tier-btn.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
 
-/* Tier card accents */
-.tier-card-budget { border-left: 3px solid var(--meadow); }
-.tier-card-comfort { border-left: 3px solid #d4a017; }
-
 /* Fallback image gradient for cards without photos */
 .refuge-card-image.no-image {
     background-color: var(--slate);
