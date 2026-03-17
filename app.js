@@ -391,7 +391,7 @@ function initMap() {
     });
 
     // Layer toggle buttons
-    document.querySelectorAll('.layer-btn').forEach(btn => {
+    document.querySelectorAll('.map-layer-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const type = btn.dataset.layer;
             const group = mapLayers[type];
@@ -668,7 +668,7 @@ function flyToRefuge(refugeName) {
     // Ensure refuge layer is visible
     if (mapLayers.refuge && !mapInstance.hasLayer(mapLayers.refuge)) {
         mapInstance.addLayer(mapLayers.refuge);
-        const btn = document.querySelector('.layer-btn[data-layer="refuge"]');
+        const btn = document.querySelector('.map-layer-btn[data-layer="refuge"]');
         if (btn) btn.classList.add('active');
     }
 
