@@ -40,7 +40,7 @@ const STAGES = [
         num: 4, from: 'Rifugio Elisabetta', to: 'Courmayeur', country: 'Italy',
         distance: 17, elevGain: 558, elevLoss: 1548, hours: '5-6', difficulty: 'easy-moderate',
         highPoint: 'Mont Favre, ~2,430m',
-        landmarks: ['Lac Combal', 'Val Veny balcony trail', 'Rifugio Maison Vieille (1,956m)', 'Dolonne village', 'Courmayeur town center'],
+        landmarks: ['Lac Combal', 'Val Veny balcony trail', 'Rifugio Maison Vieille (1,956m)', 'Dolonne village', 'Courmayeur town center', 'Cave du Vin Blanc de Morgex et de La Salle (Morgex, ~8km — Europe\'s highest DOC vineyard, Prié Blanc)'],
         viewpoints: ['Val Veny balcony — unparalleled Mont Blanc views from Italy', 'Lake Combal', 'Italian glaciers'],
         accommodations: ['Rifugio Maison Vieille', 'Courmayeur — full range of hotels, restaurants, shops'],
         notes: 'Mostly descent. Cable cars available for final descent to Courmayeur. Courmayeur is the most common rest day location — great Italian food, gelato, and shopping.',
@@ -81,7 +81,7 @@ const STAGES = [
         num: 8, from: 'Champex-Lac', to: 'Col de la Forclaz', country: 'Switzerland',
         distance: 15.9, elevGain: 876, elevLoss: 1014, hours: '5-7', difficulty: 'moderate',
         highPoint: 'Alp Bovine, ~2,049m',
-        landmarks: ['Alp Bovine trail', 'Views of Martigny and Bernese Oberland', 'Col de la Forclaz (1,526m)', 'Trient village'],
+        landmarks: ['Alp Bovine trail', 'Views of Martigny and Bernese Oberland', 'Valais wine terraces visible from Alp Bovine (Cave de Fully accessible via Martigny, ~20km)', 'Col de la Forclaz (1,526m)', 'Trient village'],
         viewpoints: ['Alp Bovine — spectacular Martigny and Rhone Valley views', 'Bernese Oberland panorama'],
         accommodations: ['Hotel du Col de la Forclaz', 'Trient village', 'Refuge Le Peuty (66 CHF half-board)'],
         notes: 'Two route options: Main via Alp Bovine (great views) or Fenetre d\'Arpette variant (2,665m — one of the toughest but most rewarding variants with Trient Glacier views).',
@@ -315,6 +315,10 @@ const MAP_POINTS = [
 
     // Mont Blanc
     { lat: 45.8326, lng: 6.8652, name: 'Mont Blanc', type: 'summit', info: '4,810m — Highest peak in Western Europe', stage: '' },
+
+    // Vineyards
+    { lat: 45.7679, lng: 6.9721, name: 'Cave du Vin Blanc de Morgex et de La Salle', type: 'vineyard', info: '900-1200m · Prié Blanc · Europe\'s highest DOC vineyard · Rest day visit from Courmayeur (~8km)', stage: '4-5' },
+    { lat: 46.1370, lng: 7.0730, name: 'Cave de Fully', type: 'vineyard', info: '480m · Petite Arvine, Cornalin, Chasselas · Valais AOC · Accessible via Martigny from Champex-Lac', stage: '7-8' },
 ];
 
 // ===== MAP INITIALIZATION =====
@@ -359,6 +363,7 @@ function initMap() {
         pass: createIcon('#8e44ad', 12),
         refuge: createIcon('#e67e22', 12),
         summit: createIcon('#e74c3c', 18),
+        vineyard: createIcon('#7d2248', 11),
     };
 
     // Add markers
