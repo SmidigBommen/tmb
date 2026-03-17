@@ -40,7 +40,7 @@ const STAGES = [
         num: 4, from: 'Rifugio Elisabetta', to: 'Courmayeur', country: 'Italy',
         distance: 17, elevGain: 558, elevLoss: 1548, hours: '5-6', difficulty: 'easy-moderate',
         highPoint: 'Mont Favre, ~2,430m',
-        landmarks: ['Lac Combal', 'Val Veny balcony trail', 'Rifugio Maison Vieille (1,956m)', 'Dolonne village', 'Courmayeur town center', 'Cave du Vin Blanc de Morgex et de La Salle (Morgex, ~8km — Europe\'s highest DOC vineyard, Prié Blanc)', '<a href="https://www.ermespavese.it/" target="_blank" rel="noopener">Ermes Pavese</a> (Morgex, ~8km — independent micro-estate with 100 parcels at 1,200m, Prié Blanc only, visits by appointment)'],
+        landmarks: ['Lac Combal', 'Val Veny balcony trail', 'Rifugio Maison Vieille (1,956m)', 'Dolonne village', 'Courmayeur town center', '<a href="https://www.cavemontblanc.com/" target="_blank" rel="noopener">Cave Mont Blanc de Morgex et de La Salle</a> (Morgex, ~8km — Europe\'s highest DOC vineyard, Prié Blanc)', '<a href="https://www.ermespavese.it/" target="_blank" rel="noopener">Ermes Pavese</a> (Morgex, ~8km — independent micro-estate with 100 parcels at 1,200m, Prié Blanc only, visits by appointment)'],
         viewpoints: ['Val Veny balcony — unparalleled Mont Blanc views from Italy', 'Lake Combal', 'Italian glaciers'],
         accommodations: ['Rifugio Maison Vieille', 'Courmayeur — full range of hotels, restaurants, shops'],
         notes: 'Mostly descent. Cable cars available for final descent to Courmayeur. Courmayeur is the most common rest day location — great Italian food, gelato, and shopping.',
