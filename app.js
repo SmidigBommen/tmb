@@ -9,7 +9,7 @@ const STAGES = [
         num: 1, from: 'Les Houches', to: 'Les Contamines', country: 'France',
         distance: 17, elevGain: 1019, elevLoss: 900, hours: '5-6', difficulty: 'easy-moderate',
         highPoint: 'Col de Voza, 1,653m',
-        landmarks: ['Official TMB start sign', 'Col de Voza (hotel/restaurant)', 'Bionnassay hamlet', 'Le Champel', 'Les Contamines-Montjoie village'],
+        landmarks: ['Official TMB start sign', 'Col de Voza (hotel/restaurant)', 'Bionnassay hamlet', 'Le Champel', 'Les Contamines-Montjoie village', 'Domaine du Gringet (Ayze, ~25km — grows Gringet, one of the world\'s rarest grapes with only ~20ha planted globally; biodynamic natural wines, rest day detour from Chamonix)'],
         viewpoints: ['Chamonix valley from Col de Voza', 'Bionnassay Glacier (variant)'],
         accommodations: ['Hotels and gites in Les Contamines-Montjoie'],
         notes: 'Most road-walking of any stage. Option to take Bellevue Cable Car to skip initial climb (saves ~803m ascent, ~2 hours). Col de Tricot variant available (more scenic but harder).',
@@ -40,7 +40,7 @@ const STAGES = [
         num: 4, from: 'Rifugio Elisabetta', to: 'Courmayeur', country: 'Italy',
         distance: 17, elevGain: 558, elevLoss: 1548, hours: '5-6', difficulty: 'easy-moderate',
         highPoint: 'Mont Favre, ~2,430m',
-        landmarks: ['Lac Combal', 'Val Veny balcony trail', 'Rifugio Maison Vieille (1,956m)', 'Dolonne village', 'Courmayeur town center', 'Cave du Vin Blanc de Morgex et de La Salle (Morgex, ~8km — Europe\'s highest DOC vineyard, Prié Blanc)'],
+        landmarks: ['Lac Combal', 'Val Veny balcony trail', 'Rifugio Maison Vieille (1,956m)', 'Dolonne village', 'Courmayeur town center', 'Cave du Vin Blanc de Morgex et de La Salle (Morgex, ~8km — Europe\'s highest DOC vineyard, Prié Blanc)', '<a href="https://www.ermespavese.it/" target="_blank" rel="noopener">Ermes Pavese</a> (Morgex, ~8km — independent micro-estate with 100 parcels at 1,200m, Prié Blanc only, visits by appointment)'],
         viewpoints: ['Val Veny balcony — unparalleled Mont Blanc views from Italy', 'Lake Combal', 'Italian glaciers'],
         accommodations: ['Rifugio Maison Vieille', 'Courmayeur — full range of hotels, restaurants, shops'],
         notes: 'Mostly descent. Cable cars available for final descent to Courmayeur. Courmayeur is the most common rest day location — great Italian food, gelato, and shopping.',
@@ -81,7 +81,7 @@ const STAGES = [
         num: 8, from: 'Champex-Lac', to: 'Col de la Forclaz', country: 'Switzerland',
         distance: 15.9, elevGain: 876, elevLoss: 1014, hours: '5-7', difficulty: 'moderate',
         highPoint: 'Alp Bovine, ~2,049m',
-        landmarks: ['Alp Bovine trail', 'Views of Martigny and Bernese Oberland', 'Valais wine terraces visible from Alp Bovine (Cave de Fully accessible via Martigny, ~20km)', 'Col de la Forclaz (1,526m)', 'Trient village'],
+        landmarks: ['Alp Bovine trail', 'Views of Martigny and Bernese Oberland', 'Valais wine terraces visible from Alp Bovine (Cave de Fully accessible via Martigny, ~20km)', '<a href="https://caveduchavalard.ch/" target="_blank" rel="noopener">Cave du Chavalard</a> (Fully, ~20km via Martigny — small family estate on granite/gneiss terroir, Petite Arvine)', '<a href="https://www.besse.ch/" target="_blank" rel="noopener">Domaine Gérald Besse</a> (Martigny-Croix, ~18km — certified organic, steep dry-stone terraced vineyards above the Martigny train hub)', 'Col de la Forclaz (1,526m)', 'Trient village'],
         viewpoints: ['Alp Bovine — spectacular Martigny and Rhone Valley views', 'Bernese Oberland panorama'],
         accommodations: ['Hotel du Col de la Forclaz', 'Trient village', 'Refuge Le Peuty (66 CHF half-board)'],
         notes: 'Two route options: Main via Alp Bovine (great views) or Fenetre d\'Arpette variant (2,665m — one of the toughest but most rewarding variants with Trient Glacier views).',
@@ -318,7 +318,11 @@ const MAP_POINTS = [
 
     // Vineyards
     { lat: 45.7679, lng: 6.9721, name: 'Cave du Vin Blanc de Morgex et de La Salle', type: 'vineyard', info: '900-1200m · Prié Blanc · Europe\'s highest DOC vineyard · Rest day visit from Courmayeur (~8km)', stage: '4-5' },
-    { lat: 46.1370, lng: 7.0730, name: 'Cave de Fully', type: 'vineyard', info: '480m · Petite Arvine, Cornalin, Chasselas · Valais AOC · Accessible via Martigny from Champex-Lac', stage: '7-8' },
+    { lat: 45.7600, lng: 6.9970, name: 'Ermes Pavese', type: 'vineyard', info: '~1,200m · Prié Blanc · 100 micro-parcels · Independent artisan estate · Visits by appointment · ermespavese.it', stage: '4-5' },
+    { lat: 46.1270, lng: 7.1200, name: 'Cave du Chavalard', type: 'vineyard', info: '~450m · Petite Arvine, Cornalin · Fully granite terroir · Small family estate · caveduchavalard.ch', stage: '7-8' },
+    { lat: 46.0970, lng: 7.0780, name: 'Domaine Gérald Besse', type: 'vineyard', info: '~500m · Petite Arvine, Ermitage, Humagne Rouge · Certified organic · Steep dry-stone terraces above Martigny · besse.ch', stage: '7-8' },
+    { lat: 46.0660, lng: 6.5350, name: 'Domaine du Gringet', type: 'vineyard', info: '~450m · Gringet (one of world\'s rarest grapes, ~20ha planted globally) · Biodynamic natural wines · Rest day detour from Chamonix (~25km)', stage: '1/11' },
+    { lat: 46.1370, lng: 7.0730, name: 'Cave de Fully', type: 'vineyard', info: '480m · Petite Arvine, Cornalin, Chasselas · Valais AOC cooperative · Accessible via Martigny from Champex-Lac', stage: '7-8' },
 ];
 
 // ===== MAP INITIALIZATION =====
