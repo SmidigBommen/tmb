@@ -363,7 +363,7 @@ function initMap() {
         pass: createIcon('#8e44ad', 12),
         refuge: createIcon('#e67e22', 12),
         summit: createIcon('#e74c3c', 18),
-        vineyard: createIcon('#7d2248', 11),
+        vineyard: createIcon('#c8860a', 11),
     };
 
     // Add markers
