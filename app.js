@@ -324,6 +324,7 @@ const MAP_POINTS = [
 // ===== MAP INITIALIZATION =====
 
 let mapInstance = null;
+let mapLayers = {};
 const mapMarkers = {};
 
 function initMap() {
@@ -366,18 +367,43 @@ function initMap() {
         vineyard: createIcon('#1a6fc4', 11),
     };
 
-    // Add markers
+    // Layer groups (borders/route are always on — no group needed)
+    mapLayers = {
+        town:     L.layerGroup().addTo(map),
+        pass:     L.layerGroup().addTo(map),
+        refuge:   L.layerGroup().addTo(map),
+        summit:   L.layerGroup().addTo(map),
+        vineyard: L.layerGroup().addTo(map),
+    };
+
+    // Add markers to layer groups
     MAP_POINTS.forEach(pt => {
         const icon = icons[pt.type] || icons.town;
-        // For refuge markers, find matching refuge data to add booking link
         const matchedRefuge = (pt.type === 'refuge') ? REFUGES.find(r => r.name === pt.name) : null;
         const bookingHtml = matchedRefuge && matchedRefuge.bookingUrl
             ? `<a href="${matchedRefuge.bookingUrl}" target="_blank" rel="noopener" class="popup-book-link">Book accommodation &rarr;</a>`
             : '';
         const marker = L.marker([pt.lat, pt.lng], { icon })
-            .addTo(map)
             .bindPopup(`<strong>${pt.name}</strong><div class="popup-meta">${pt.info}${pt.stage ? ' · Stage ' + pt.stage : ''}</div>${bookingHtml}`);
+        const group = mapLayers[pt.type];
+        if (group) group.addLayer(marker);
         mapMarkers[pt.name] = marker;
+    });
+
+    // Layer toggle buttons
+    document.querySelectorAll('.layer-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const type = btn.dataset.layer;
+            const group = mapLayers[type];
+            if (!group) return;
+            if (map.hasLayer(group)) {
+                map.removeLayer(group);
+                btn.classList.remove('active');
+            } else {
+                map.addLayer(group);
+                btn.classList.add('active');
+            }
+        });
     });
 
     // Country border markers
@@ -638,6 +664,13 @@ function flyToRefuge(refugeName) {
     if (!mapInstance) return;
     const refuge = REFUGES.find(r => r.name === refugeName);
     if (!refuge || !refuge.lat) return;
+
+    // Ensure refuge layer is visible
+    if (mapLayers.refuge && !mapInstance.hasLayer(mapLayers.refuge)) {
+        mapInstance.addLayer(mapLayers.refuge);
+        const btn = document.querySelector('.layer-btn[data-layer="refuge"]');
+        if (btn) btn.classList.add('active');
+    }
 
     // Scroll to map section
     document.getElementById('map-section').scrollIntoView({ behavior: 'smooth' });
